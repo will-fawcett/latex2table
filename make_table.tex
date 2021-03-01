@@ -1,0 +1,22 @@
+
+%\documentclass{article}
+%\documentclass[varwidth=true, border=10pt, convert={size=640x}]{standalone} % meant to make png, needs -shell-escape which messes up input fudge, do convert seperately
+%\documentclass[varwidth=true, border=10pt]{standalone}
+\documentclass[a4paper]{article}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{arydshln}
+
+\pagenumbering{gobble} % remove page numbering 
+
+\textwidth=455pt % same as an ATLAS draft 
+
+\newcommand{\ipb}{pb$^{-1}$}
+
+\begin{document}
+
+\input{\tablefile}
+
+\end{document}
