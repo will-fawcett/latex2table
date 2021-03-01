@@ -1,12 +1,16 @@
+#!/usr/bin/env bash
+
 echo "Welcome to pdftab v1.0"
-
-
 
 # Directory the script was called from
 curr_dir=`pwd`
 
 # Full path to the file 
 full_path="$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+
+# The directory this script is stored in
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 
 echo "Will process file:" $full_path
 
@@ -19,8 +23,10 @@ pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{../make_tabl
 
 pdfcrop make_table.pdf
 mv make_table-crop.pdf make_table.pdf
-#convert -density 300 make_table.pdf -quality 100 make_table.png
 
 
 mv make_table.pdf $curr_dir/${1%.tex}.pdf
+
+# option for conversion to png as well as pdf
+#convert -density 300 make_table.pdf -quality 100 make_table.png
 #mv make_table.png $curr_dir/${1%.tex}.png
