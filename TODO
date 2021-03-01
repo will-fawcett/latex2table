@@ -1,0 +1,11 @@
+Thoughts on things to add:
+------------------------
+Improve on _where_ the script is run, so that *aux and *out files don't cause clutter. Perhaps /tmp? 
+
+
+Proper option parsing, and add the following options:
+-o: specify the output path
+-i: specifiy the input
+-h: help
+-v: a verbose mode
+-png: create a png of the table as well as the pdf (or just make a png?) 

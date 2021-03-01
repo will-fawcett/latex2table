@@ -7,6 +7,7 @@ curr_dir=`pwd`
 
 # Full path to the file 
 full_path="$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+echo "Will process file:" $full_path
 
 # The directory this script is stored in (including resolving symlinks):
 SOURCE="${BASH_SOURCE[0]}"
@@ -19,19 +20,20 @@ L2T_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 
 
-echo "Will process file:" $full_path
+## Move to the install directory 
+cd $L2T_DIR
 
-# Move to the install directory 
-cd $L2T_DIR/rundir
 
 # --interaction=batchmode by default, could add an option to make this verbose 
 #echo pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
 pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"  | grep -v "This is pdfTeX" | grep -v "write18 enabled." | grep -v "entering extended mode"
 pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"  | grep -v "This is pdfTeX" | grep -v "write18 enabled." | grep -v "entering extended mode"
 
+# Crop the table so it's a nice shape 
 pdfcrop make_table.pdf | grep -v Heiko | grep -v make_table-crop.pdf 
 mv make_table-crop.pdf make_table.pdf
 
+# Move the output so it's stored where the used called the script from 
 output=$curr_dir/${1%.tex}.pdf
 echo "Writing output to $output"
 mv make_table.pdf $output 
