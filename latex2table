@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+echo "Welcome to latex2table v1.0"
+
+# Directory the script was called from
+curr_dir=`pwd`
+
+# Full path to the file 
+full_path="$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+
+# The directory this script is stored in (including resolving symlinks):
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+    DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+L2T_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+
+
+echo "Will process file:" $full_path
+
+# Move to the install directory 
+cd $L2T_DIR/rundir
+
+# --interaction=batchmode by default, could add an option to make this verbose 
+echo pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
+
+pdfcrop make_table.pdf
+mv make_table-crop.pdf make_table.pdf
+
+
+mv make_table.pdf $curr_dir/${1%.tex}.pdf
+
+# option for conversion to png as well as pdf
+#convert -density 300 make_table.pdf -quality 100 make_table.png
+#mv make_table.png $curr_dir/${1%.tex}.png
