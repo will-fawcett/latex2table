@@ -11,10 +11,11 @@ full_path="$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
 echo "Will process file:" $full_path
 
 # Move to the install directory 
-cd /usera/wfawcett/scripts/latex/rundir
+cd /usera/wfawcett/scripts/pdftab/rundir
 
-pdflatex "\def\tablefile{$full_path} \input{../make_table.tex}"
-pdflatex "\def\tablefile{$full_path} \input{../make_table.tex}"
+# --interaction=batchmode by default, could add an option to make this verbose 
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{../make_table.tex}"
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{../make_table.tex}"
 
 pdfcrop make_table.pdf
 mv make_table-crop.pdf make_table.pdf
