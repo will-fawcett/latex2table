@@ -17,6 +17,6 @@ Then: link the `latex2table.sh` script so that it is in your path.
 # Acknowledgements
  - William Kalderon, for the initial idea! 
 
-# Licence
+# License
 Copyright 2021 William James Fawcett. 
 Distributed under the terms of the [ISC license](./LICENSE).
