@@ -25,16 +25,17 @@ echo "Will process file:" $full_path
 cd $L2T_DIR/rundir
 
 # --interaction=batchmode by default, could add an option to make this verbose 
-echo pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
-pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
-pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
+#echo pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"  | grep -v "This is pdfTeX" | grep -v "write18 enabled." | grep -v "entering extended mode"
+pdflatex --interaction=batchmode "\def\tablefile{$full_path} \input{$L2T_DIR/make_table.tex}"  | grep -v "This is pdfTeX" | grep -v "write18 enabled." | grep -v "entering extended mode"
 
-pdfcrop make_table.pdf
+pdfcrop make_table.pdf | grep -v Heiko | grep -v make_table-crop.pdf 
 mv make_table-crop.pdf make_table.pdf
 
+output=$curr_dir/${1%.tex}.pdf
+echo "Writing output to $output"
+mv make_table.pdf $output 
 
-mv make_table.pdf $curr_dir/${1%.tex}.pdf
 
-# option for conversion to png as well as pdf
 #convert -density 300 make_table.pdf -quality 100 make_table.png
 #mv make_table.png $curr_dir/${1%.tex}.png

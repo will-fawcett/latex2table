@@ -7,7 +7,7 @@ Create a pdf of a table from a latex table fragment.
 ```
 git clone https://github.com/will-fawcett/latex2table
 ```
-Then: link the `latex2table.sh` script so that it is in your path. 
+Then: link the `latex2table` script so that it is in your path, making sure that it has executable permissions. 
 
 ## Requirements
 - pdflatex
